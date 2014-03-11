@@ -10,6 +10,7 @@ package:
 	mkdir -p build/${package}/DEBIAN && \
 	cp debian/* build/${package}/DEBIAN && \
 	cd build && \
+	sed -i 's/@version@/$(version)/' ${package}/DEBIAN/changelog && \
 	sed -i 's/@version@/$(version)/' ${package}/DEBIAN/control && \
 	fakeroot dpkg --build ${package} && \
 	echo "" && \
