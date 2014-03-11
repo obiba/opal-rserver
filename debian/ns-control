@@ -9,7 +9,7 @@ Package: opal-rserver
 Version: @version@
 Architecture: all
 Pre-Depends: debconf, coreutils (>= 6.10)
-Depends: daemon, rserver-admin, libcurl4-openssl-dev, libxml2-dev
+Depends: rserver-admin, libcurl4-openssl-dev, libxml2-dev, r-base (>= 2.15.0)
 Suggests:
 Description: OBiBa Opal Rserver
  Opal Rserver configures dependencies for using R server with Opal.

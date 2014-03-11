@@ -4,14 +4,10 @@ opal-rserver
 Opal R server meta Debian package
 
 
-## Create the package
+## Create and sign the package
 
-Depends on `equivs`
-
-```
-sudo apt-get install equivs
-```
+Depends on equivs and debsigs: `sudo apt-get install equivs`
 
 ```
-make package
+make
 ```
