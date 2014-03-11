@@ -22,3 +22,5 @@ sign: package
 	echo "Signed package build/${package}.deb" && \
 	echo ""
 
+publish: sign
+	cp build/${package}.deb ${dir}
