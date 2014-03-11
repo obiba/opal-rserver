@@ -6,6 +6,6 @@ clean:
 	rm -rf build
 
 package:
-	mkdir buid && \
-	equivs-control ns-control && \
+	mkdir -p build && \
+	equivs-build ns-control && \
 	mv *.deb build
