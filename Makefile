@@ -1,4 +1,5 @@
 version = 1.0-SNAPSHOT
+package = opal-rserver_${version}
 
 all: clean sign
 
@@ -6,18 +7,18 @@ clean:
 	rm -rf build
 
 package:
-	mkdir -p build && \
+	mkdir -p build/${package}/DEBIAN && \
+	cp debian/* build/${package}/DEBIAN && \
 	cd build && \
-	cp ../ns-control . && \
-	sed -i 's/@version@/$(version)/' ns-control && \
-	equivs-build ns-control && \
+	sed -i 's/@version@/$(version)/' ${package}/DEBIAN/control && \
+	dpkg --build ${package} && \
 	echo "" && \
-	echo "Package opal-rserver_${version}_all.deb created in build directory" && \
+	echo "Package ${package}.deb created in build directory" && \
 	echo ""
 
 sign: package
-	debsigs --sign origin build/opal-rserver_${version}_all.deb
+	debsigs --sign origin build/${package}.deb && \
 	echo "" && \
-	echo "Signed package build/opal-rserver_${version}_all.deb" && \
+	echo "Signed package build/${package}.deb" && \
 	echo ""
 

@@ -2,8 +2,6 @@ Source: opal-rserver
 Section: devel
 Priority: extra
 Maintainer: OBiBa <info@obiba.org>
-Build-Depends: debhelper (>= 7.0.15)
-Standards-Version: 3.8.4
 Homepage: http://www.obiba.org
 Package: opal-rserver
 Version: @version@
