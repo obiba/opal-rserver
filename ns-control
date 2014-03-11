@@ -1,0 +1,22 @@
+Source: opal-rserver
+Section: devel
+Priority: extra
+Maintainer: OBiBa <info@obiba.org>
+Build-Depends: debhelper (>= 7.0.15)
+Standards-Version: 3.8.4
+Homepage: http://www.obiba.org
+Package: opal-rserver
+Version: 1.0-SNAPSHOT
+Architecture: all
+Pre-Depends: debconf, coreutils (>= 6.10)
+Depends: daemon, rserver-admin, libcurl4-openssl-dev, libxml2-dev
+Suggests:
+Description: OBiBa Opal Rserver
+ Opal Rserver configures dependencies for using R server with Opal.
+ .
+ OBiBa is an international software development project committed to building a
+ full suite of open source software for biobanks. It is comprised of several
+ independent and self-funded teams around the world, each of which is producing
+ stand-alone applications that support particular biobank activities. The
+ applications can be customized and integrated to create a complete biobank
+ information management system.
