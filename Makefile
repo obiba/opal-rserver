@@ -11,7 +11,7 @@ package:
 	cp debian/* build/${package}/DEBIAN && \
 	cd build && \
 	sed -i 's/@version@/$(version)/' ${package}/DEBIAN/control && \
-	dpkg --build ${package} && \
+	fakeroot dpkg --build ${package} && \
 	echo "" && \
 	echo "Package ${package}.deb created in build directory" && \
 	echo ""
