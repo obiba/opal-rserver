@@ -9,21 +9,25 @@ clean:
 
 package:
 	mkdir -p build/${package}/ && \
-	cp -r debian build/${package} && \
+	cp -r debian/* build/${package} && \
 	cd build/${package} && \
-	sed -i 's/@version@/$(version)/' debian/changelog && \
-	sed -i 's/@version@/$(version)/' debian/control && \
-	sed -i 's/@date@/$(date)/' debian/changelog && \
-	fakeroot dpkg-buildpackage && \
+	sed -i 's/@version@/$(version)/' changelog && \
+	sed -i 's/@version@/$(version)/' ns-control && \
+	sed -i 's/@date@/$(date)/' changelog && \
+	equivs-build ns-control && \
+	mv ${package}_all.deb ..
 	echo "" && \
-	echo "Package ${package}.deb created in build directory" && \
+	echo "Package ${package}_all.deb created in build directory" && \
 	echo ""
 
 sign: package
-	debsigs --sign origin build/${package}.deb && \
+	debsigs --sign origin build/${package}_all.deb && \
 	echo "" && \
 	echo "Signed package build/${package}.deb" && \
 	echo ""
 
 publish: sign
 	cp build/${package}.deb ${dir}
+
+check:
+	lintian build/${package}_all.deb
