@@ -12,6 +12,8 @@ Depends on equivs-build: `sudo apt-get install equivs-build`
 make all [sign=true]
 ```
 
+Package is built to `build/opal-rserver-<version>_all.deb`
+
 
 ## Publish signed package
 
