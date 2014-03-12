@@ -33,7 +33,7 @@ sign: package
 	echo "Signed package build/${package}.deb" && \
 	echo ""
 
-publish: sign
+publish: package
 	cp build/${package}.deb ${dir}
 
 check:
