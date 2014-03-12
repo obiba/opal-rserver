@@ -26,7 +26,7 @@ package:
 	echo "Package ${package}_all.deb created in build directory" && \
 	echo ""
 
-publish: package
+publish: package check
 	echo "Publish package"
 	cp build/${package}_all.deb ${dir}
 
