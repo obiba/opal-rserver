@@ -2,6 +2,12 @@ version = 1.0-SNAPSHOT
 package = opal-rserver_${version}
 date = $(shell date -R)
 
+ifeq ($(findstring SNAPSHOT,$(version)),SNAPSHOT)
+	stability=unstable
+else
+	stability=stable
+endif
+
 ifeq (${sign},true)
 	build_options=--full
 else
@@ -28,7 +34,7 @@ package:
 
 publish: package check
 	@echo "Publish package"
-	cp build/${package}_all.deb ${dir}
+	cp build/${package}_all.deb ${dir}/${stability}
 
 check:
 	@echo "Validate package"

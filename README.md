@@ -20,3 +20,9 @@ Package is built to `build/opal-rserver-<version>_all.deb`
 ```
 make publish dir=<destination> sign=true
 ```
+
+Package will be copied to
+
+* `<destination>/unstable` for SNAPSHOT version
+* `<destination>/stable` for release version
+
