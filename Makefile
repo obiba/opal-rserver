@@ -1,4 +1,4 @@
-version = 1.0-SNAPSHOT
+version = 1.0.0
 package = opal-rserver_${version}
 date = $(shell date -R)
 
@@ -39,3 +39,13 @@ publish: package check
 check:
 	@echo "Validate package"
 	lintian build/${package}_all.deb
+
+release:
+	@echo "Release ${version} version (next version: ${nextVersion})"
+	sed -i 's/^version = .*$$/version = ${version}/' Makefile && \
+	git commit -a -m "Prepare release ${version}" && \
+	git tag ${version}
+	sed -i 's/^version = .*$$/version = ${nextVersion}/' Makefile && \
+	git commit -a -m "Set new development version to ${nextVersion}" && \
+	git push origin master --tags
+
