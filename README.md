@@ -4,16 +4,17 @@ opal-rserver
 Opal R server meta Debian package
 
 
-## Create and sign the package
+## Create the package
 
-Depends on debsigs: `sudo apt-get install debsigs`
-
-```
-make all
-```
-
-## Publish package
+Depends on equivs-build: `sudo apt-get install equivs-build`
 
 ```
-make publish dir=<destination>
+make all [sign=true]
+```
+
+
+## Publish signed package
+
+```
+make publish dir=<destination> sign=true
 ```
