@@ -1,5 +1,5 @@
 version = 1.0-SNAPSHOT
-package = opal-rserver-${version}
+package = opal-rserver_${version}
 date = $(shell date -R)
 
 ifeq (${sign},true)
