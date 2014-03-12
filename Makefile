@@ -27,7 +27,9 @@ package:
 	echo ""
 
 publish: package
-	cp build/${package}.deb ${dir}
+	echo "Publish package"
+	cp build/${package}_all.deb ${dir}
 
 check:
+  echo "Validate package"
 	lintian build/${package}_all.deb
