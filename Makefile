@@ -41,10 +41,16 @@ check:
 	lintian build/${package}_all.deb
 
 release:
-	@echo "Release ${version} version (next version: ${nextVersion})"
-	sed -i 's/^version = .*$$/version = ${version}/' Makefile && \
-	git commit -a -m "Prepare release ${version}" && \
-	git tag ${version}
+ifeq (${releaseVersion},)
+	$(error releaseVersion cannot be null.)
+endif
+ifeq (${nextVersion},)
+	$(error nextVersion cannot be null.)
+endif
+	@echo "Release ${releaseVersion} version (next version: ${nextVersion})"
+	sed -i 's/^version = .*$$/version = ${releaseVersion}/' Makefile && \
+	git commit -a -m "Prepare release ${releaseVersion}" && \
+	git tag ${releaseVersion}
 	sed -i 's/^version = .*$$/version = ${nextVersion}/' Makefile && \
 	git commit -a -m "Set new development version to ${nextVersion}" && \
 	git push origin master --tags
