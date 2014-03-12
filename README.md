@@ -1,7 +1,7 @@
 opal-rserver
 =============
 
-Opal R server meta Debian package
+Opal R server Debian meta package
 
 
 ## Create the package
