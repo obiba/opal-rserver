@@ -8,7 +8,7 @@ else
 	build_options=
 endif
 
-all: clean sign check
+all: clean package check
 
 clean:
 	rm -rf build
@@ -24,13 +24,6 @@ package:
 	mv ${package}_all.deb ..
 	echo "" && \
 	echo "Package ${package}_all.deb created in build directory" && \
-	echo ""
-
-sign: package
-	cp build/${package}_all.deb build/${package}_all_unsigned.deb && \
-	debsigs --sign origin build/${package}_all.deb && \
-	echo "" && \
-	echo "Signed package build/${package}.deb" && \
 	echo ""
 
 publish: package
