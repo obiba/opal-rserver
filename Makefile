@@ -1,4 +1,4 @@
-version = 1.0-SNAPSHOT
+version = 1.0.2
 package = opal-rserver_${version}
 date = $(shell date -R)
 
