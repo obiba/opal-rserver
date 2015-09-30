@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-
   <groupId>org.obiba.opal-rserver</groupId>
   <artifactId>opal-rserver</artifactId>
   <version>1.0-SNAPSHOT</version>
@@ -15,7 +13,14 @@
       <id>ci-build</id>
       <build>
         <pluginManagement>
+
           <plugins>
+
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-antrun-plugin</artifactId>
+              <version>${maven-antrun-plugin.version}</version>
+            </plugin>
             <plugin>
               <groupId>org.codehaus.mojo</groupId>
               <artifactId>buildnumber-maven-plugin</artifactId>
@@ -35,6 +40,10 @@
                   </configuration>
                 </execution>
               </executions>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-antrun-plugin</artifactId>
             </plugin>
           </plugins>
         </pluginManagement>
@@ -67,9 +76,78 @@
                     <require>rserver-admin</require>
                   </requires>
                   <postinstallScriptlet>
-                    <scriptFile>src/dist/rpm/scripts/postinstall.sh</scriptFile>
+                    <scriptFile>src/main/dist/rpm/scripts/postinstall.sh</scriptFile>
                     <fileEncoding>utf-8</fileEncoding>
                   </postinstallScriptlet>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>make-deb</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <echo message="Starting ant-run target configuration."/>
+                    <property name="deb.dir" value="${basedir}/target/deb" />
+                    <property name="deb.version" value="${project.version}-b${buildNumber}" />
+                    <tstamp>
+                      <!-- http://www.debian.org/doc/debian-policy/ch-source.html -->
+                      <format property="deb.date" pattern="EEE, d MMM yyyy HH:mm:ss Z" locale="en" />
+                    </tstamp>
+
+                    <mkdir dir="${deb.dir}" />
+                    <copy todir="${deb.dir}">
+                      <fileset dir="src/main/dist/deb" />
+                      <filterset>
+                        <filter token="project.version" value="${deb.version}" />
+                        <filter token="date" value="${deb.date}" />
+                      </filterset>
+                    </copy>
+
+                    <exec executable="debuild" dir="${deb.dir}" failonerror="true" osfamily="unix">
+                      <arg value="-b" />
+                      <!-- Uncomment following options to package locally  -->
+                      <arg value="-i" />
+                      <arg value="-us" />
+                      <arg value="-uc" />
+                    </exec>
+                  </target>
+                </configuration>
+              </execution>
+              <execution>
+                <id>deploy-deb</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <property name="deb.version" value="${project.version}-b${buildNumber}" />
+                    <!-- Deploy deb file in deb repo -->
+                    <copy file="target/opal-rserver_${deb.version}_all.deb" todir="${obiba.deb.dir}/${opal-rserver.deploy.dir}" />
+                  </target>
+                </configuration>
+              </execution>
+              <execution>
+                <id>deploy-rpm</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <!-- Deploy rpm file in rpm repo -->
+                    <copy todir="${obiba.rpm.dir}/${opal-rserver.deploy.dir}">
+                      <fileset dir="target/rpm/opal-rserver/RPMS/noarch" />
+                    </copy>
+                  </target>
                 </configuration>
               </execution>
             </executions>
@@ -125,6 +203,7 @@
 
   <properties>
     <opal-rserver.deploy.dir>unstable</opal-rserver.deploy.dir>
+    <package.name>opal-rserver-${project.version}</package.name>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -132,6 +211,7 @@
 
     <maven-release-plugin.version>2.5.2</maven-release-plugin.version>
     <maven-buildnumber-plugin.version>1.2</maven-buildnumber-plugin.version>
+    <maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
   </properties>
 
   <scm>
@@ -140,4 +220,23 @@
     <url>https://github.com/obiba/opal-rserver</url>
     <tag>HEAD</tag>
   </scm>
+
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://jira.obiba.org</url>
+  </issueManagement>
+
+  <ciManagement>
+    <system>Jenkins</system>
+    <url>https://ci.obiba.org/view/Opal/job/Opal-rserver/</url>
+  </ciManagement>
+
+  <mailingLists>
+    <mailingList>
+      <name>OBiBa Users</name>
+      <post>obiba-users@googlegroups.com</post>
+      <archive>https://groups.google.com/forum/?fromgroups#!forum/obiba-users</archive>
+    </mailingList>
+  </mailingLists>
+
 </project>
