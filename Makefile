@@ -1,5 +1,6 @@
 version = 1.0-SNAPSHOT
 package = opal-rserver_${version}
+package_rpm = opal-rserver-${version}
 date = $(shell date -R)
 
 ifeq ($(findstring SNAPSHOT,$(version)),SNAPSHOT)
@@ -17,11 +18,14 @@ endif
 all: clean package check
 
 clean:
-	rm -rf build
+	rm -rf build && \
+	mvn clean
 
-package:
+package: package-deb package-rpm
+
+package-deb:
 	mkdir -p build/${package}/ && \
-	cp -r debian/* build/${package} && \
+	cp -r src/dist/debian/* build/${package} && \
 	cd build/${package} && \
 	sed -i 's/@version@/$(version)/' changelog && \
 	sed -i 's/@version@/$(version)/' ns-control && \
@@ -32,9 +36,19 @@ package:
 	echo "Package ${package}_all.deb created in build directory" && \
 	echo ""
 
-publish: package check
-	@echo "Publish package"
+package-rpm:
+	mvn clean install -Pci-build
+
+
+publish: publish-deb publish-rpm
+
+publish-deb: package-deb check
+	@echo "Publish package Debian" && \
 	cp build/${package}_all.deb ${dir}/${stability}
+
+publish-rpm: package-rpm
+	@echo "Publish package RPM" && \
+	cp target/rpm/opal-rserver/RPMS/noarch/${package_rpm}*.rpm ${dir_rpm}/${stability}
 
 check:
 	@echo "Validate package"
