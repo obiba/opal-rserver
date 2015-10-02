@@ -1,28 +1,7 @@
-opal-rserver
-=============
+# Opal Rserver [![Build Status](http://ci.obiba.org/view/Onyx/job/Opal-rserver/badge/icon)](http://ci.obiba.org/view/R/job/Opal-rserver/)
 
-Opal R server Debian meta package
+Opal R server Debian/RPM meta packages.
 
-
-## Create the package
-
-Depends on equivs-build: `sudo apt-get install equivs-build`
-
-```
-make all [sign=true]
-```
-
-Package is built to `build/opal-rserver-<version>_all.deb`
-
-
-## Publish signed package
-
-```
-make publish dir=<destination> sign=true
-```
-
-Package will be copied to
-
-* `<destination>/unstable` for SNAPSHOT version
-* `<destination>/stable` for release version
-
+This package will install some system dependencies (cURL, OpenSSL), some R 
+packages useful for Opal reporting (opal, ggplot2,...) and the 
+[R Server](https://github.com/obiba/rserver-admin).
