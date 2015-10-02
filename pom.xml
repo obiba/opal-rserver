@@ -12,9 +12,7 @@
       <id>ci-build</id>
       <build>
         <pluginManagement>
-
           <plugins>
-
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-antrun-plugin</artifactId>
@@ -40,10 +38,6 @@
                 </execution>
               </executions>
             </plugin>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-antrun-plugin</artifactId>
-            </plugin>
           </plugins>
         </pluginManagement>
 
@@ -51,6 +45,7 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>rpm-maven-plugin</artifactId>
+            <version>${rpm-maven-plugin.version}</version>
             <executions>
               <execution>
                 <id>make-rpm</id>
@@ -113,9 +108,9 @@
                     <exec executable="debuild" dir="${deb.dir}" failonerror="true" osfamily="unix">
                       <arg value="-b" />
                       <!-- Uncomment following options to package locally  -->
-                      <arg value="-i" />
-                      <arg value="-us" />
-                      <arg value="-uc" />
+                      <!--<arg value="-i" />-->
+                      <!--<arg value="-us" />-->
+                      <!--<arg value="-uc" />-->
                     </exec>
                   </target>
                 </configuration>
@@ -211,6 +206,7 @@
     <maven-release-plugin.version>2.5.2</maven-release-plugin.version>
     <maven-buildnumber-plugin.version>1.2</maven-buildnumber-plugin.version>
     <maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
+    <rpm-maven-plugin.version>2.1.4</rpm-maven-plugin.version>
   </properties>
 
   <scm>
