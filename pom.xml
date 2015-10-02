@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.obiba.opal-rserver</groupId>
   <artifactId>opal-rserver</artifactId>
@@ -94,7 +93,7 @@
                 </goals>
                 <configuration>
                   <target>
-                    <echo message="Starting ant-run target configuration."/>
+                    <echo message="Starting ant-run target configuration." />
                     <property name="deb.dir" value="${basedir}/target/deb" />
                     <property name="deb.version" value="${project.version}-b${buildNumber}" />
                     <tstamp>
@@ -218,7 +217,7 @@
     <connection>scm:git:git://github.com/obiba/opal-rserver.git</connection>
     <developerConnection>scm:git:https://github.com/obiba/opal-rserver.git</developerConnection>
     <url>https://github.com/obiba/opal-rserver</url>
-    <tag>HEAD</tag>
+    <tag>opal-rserver-1.0.x</tag>
   </scm>
 
   <issueManagement>
