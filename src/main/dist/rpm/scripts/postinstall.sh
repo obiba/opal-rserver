@@ -7,9 +7,9 @@ set -e
 case "$1" in
     1)
 
-      Rscript -e "install.packages(c('opal', 'ggplot2', 'haven'), repos=c('http://cran.rstudio.com', 'http://cran.obiba.org'), dependencies=TRUE)"
+      Rscript -e "install.packages(c('opal', 'ggplot2', 'haven'), repos=c('http://cran.rstudio.com', 'http://cran.obiba.org'), dependencies=TRUE, lib=.libPaths()[2])"
 
-      Rscript -e "if (R.Version()\$major >= 3) { install.packages('opaladdons', repos=c('http://cran.rstudio.com', 'http://cran.obiba.org'), dependencies=TRUE) }"
+      Rscript -e "if (R.Version()\$major >= 3) { install.packages('opaladdons', repos=c('http://cran.rstudio.com', 'http://cran.obiba.org'), dependencies=TRUE, lib=.libPaths()[2]) }"
 
     ;;
 
