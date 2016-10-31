@@ -67,6 +67,7 @@
                     <require>openssl-devel</require>
                     <require>libcurl-devel</require>
                     <require>libxml2-devel</require>
+                    <require>cairo-devel</require>
                     <require>rserver-admin</require>
                   </requires>
                   <postinstallScriptlet>
