@@ -69,6 +69,7 @@
                     <require>libxml2-devel</require>
                     <require>cairo-devel</require>
                     <require>rserver-admin</require>
+                    <require>pandoc</require>
                   </requires>
                   <postinstallScriptlet>
                     <scriptFile>src/main/dist/rpm/scripts/postinstall.sh</scriptFile>
