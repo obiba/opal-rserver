@@ -215,7 +215,7 @@
     <connection>scm:git:git://github.com/obiba/opal-rserver.git</connection>
     <developerConnection>scm:git:https://github.com/obiba/opal-rserver.git</developerConnection>
     <url>https://github.com/obiba/opal-rserver</url>
-    <tag>HEAD</tag>
+    <tag>opal-rserver-1.2.0.x</tag>
   </scm>
 
   <issueManagement>
