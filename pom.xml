@@ -211,6 +211,20 @@
     <rpm-maven-plugin.version>2.1.4</rpm-maven-plugin.version>
   </properties>
 
+  <distributionManagement>
+
+    <repository>
+      <id>obiba-releases</id>
+      <url>http://repo.obiba.org/libs-release-local</url>
+    </repository>
+
+    <snapshotRepository>
+      <id>obiba-snapshots</id>
+      <url>http://repo.obiba.org/libs-snapshot-local</url>
+    </snapshotRepository>
+
+  </distributionManagement>
+
   <scm>
     <connection>scm:git:git://github.com/obiba/opal-rserver.git</connection>
     <developerConnection>scm:git:https://github.com/obiba/opal-rserver.git</developerConnection>
