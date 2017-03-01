@@ -68,6 +68,7 @@
                     <require>libcurl-devel</require>
                     <require>libxml2-devel</require>
                     <require>cairo-devel</require>
+                    <require>freeglut-devel</require>
                     <require>rserver-admin</require>
                     <require>pandoc</require>
                   </requires>
