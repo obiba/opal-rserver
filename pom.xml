@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.obiba.opal-rserver</groupId>
   <artifactId>opal-rserver</artifactId>
-  <version>1.3-SNAPSHOT</version>
+  <version>1.3.0</version>
   <name>opal-rserver</name>
 
   <profiles>
@@ -230,7 +230,7 @@
     <connection>scm:git:git://github.com/obiba/opal-rserver.git</connection>
     <developerConnection>scm:git:https://github.com/obiba/opal-rserver.git</developerConnection>
     <url>https://github.com/obiba/opal-rserver</url>
-    <tag>opal-rserver-1.3.x</tag>
+    <tag>1.3.0</tag>
   </scm>
 
   <issueManagement>
