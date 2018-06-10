@@ -9,7 +9,7 @@
   <profiles>
     <profile>
       <!-- A profile for the builds performed by the continuous integration server -->
-      <id>ci-build</id>
+      <id>release</id>
       <build>
         <pluginManagement>
           <plugins>
@@ -110,41 +110,45 @@
 
                     <exec executable="debuild" dir="${deb.dir}" failonerror="true" osfamily="unix">
                       <arg value="-b" />
-                      <!-- Uncomment following options to package locally  -->
-                      <!--<arg value="-i" />-->
-                      <!--<arg value="-us" />-->
-                      <!--<arg value="-uc" />-->
+                      <arg value="-i" />
+                      <arg value="-us" />
+                      <arg value="-uc" />
                     </exec>
                   </target>
                 </configuration>
               </execution>
+            </executions>
+          </plugin>
+
+          <!-- Upload packages to github release -->
+          <plugin>
+            <groupId>de.jutzig</groupId>
+            <artifactId>github-release-plugin</artifactId>
+            <executions>
               <execution>
-                <id>deploy-deb</id>
-                <phase>package</phase>
+                <id>make-release</id>
+                <phase>deploy</phase>
                 <goals>
-                  <goal>run</goal>
+                  <goal>release</goal>
                 </goals>
                 <configuration>
-                  <target>
-                    <property name="deb.version" value="${project.version}-b${buildNumber}" />
-                    <!-- Deploy deb file in deb repo -->
-                    <copy file="target/opal-rserver_${deb.version}_all.deb" todir="${obiba.deb.dir}/${opal-rserver.deploy.dir}" />
-                  </target>
-                </configuration>
-              </execution>
-              <execution>
-                <id>deploy-rpm</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-                <configuration>
-                  <target>
-                    <!-- Deploy rpm file in rpm repo -->
-                    <copy todir="${obiba.rpm.dir}/${opal-rserver.deploy.dir}">
-                      <fileset dir="target/rpm/opal-rserver/RPMS/noarch" />
-                    </copy>
-                  </target>
+                  <releaseName>${project.version}</releaseName>
+                  <tag>${project.version}</tag>
+                  <fileSets>
+                    <fileSet>
+                      <directory>${project.build.directory}</directory>
+                      <includes>
+                        <include>*.tar.gz</include>
+                        <include>*.deb</include>
+                      </includes>
+                    </fileSet>
+                    <fileSet>
+                      <directory>${project.build.directory}/rpm/${project.name}/RPMS/noarch</directory>
+                      <includes>
+                        <include>*.rpm</include>
+                      </includes>
+                    </fileSet>
+                  </fileSets>
                 </configuration>
               </execution>
             </executions>
@@ -165,9 +169,34 @@
           <configuration>
             <!-- Use parent version as modules' version -->
             <autoVersionSubmodules>true</autoVersionSubmodules>
-            <releaseProfiles>ci-build,release</releaseProfiles>
+            <releaseProfiles>release</releaseProfiles>
             <!-- Comment this profile because Jenkins crashes while performing the release -->
             <!--<preparationGoals>clean verify install</preparationGoals>-->
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>${maven-antrun-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>rpm-maven-plugin</artifactId>
+          <version>${rpm-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>de.jutzig</groupId>
+          <artifactId>github-release-plugin</artifactId>
+          <version>${github-release-plugin.version}</version>
+        </plugin>
+
+        <!-- Disable default deployer. -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${maven-deploy-plugin.version}</version>
+          <configuration>
+            <skip>true</skip>
           </configuration>
         </plugin>
       </plugins>
@@ -199,48 +228,45 @@
   </build>
 
   <properties>
-    <opal-rserver.deploy.dir>unstable</opal-rserver.deploy.dir>
     <package.name>opal-rserver-${project.version}</package.name>
-
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 
-    <maven-release-plugin.version>2.5.2</maven-release-plugin.version>
-    <maven-buildnumber-plugin.version>1.2</maven-buildnumber-plugin.version>
+    <!-- maven plugins -->
+    <github-release-plugin.version>1.2.0</github-release-plugin.version>
     <maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
+    <maven-buildnumber-plugin.version>1.2</maven-buildnumber-plugin.version>
+    <maven-deploy-plugin.version>2.8.1</maven-deploy-plugin.version>
+    <maven-release-plugin.version>2.5.2</maven-release-plugin.version>
     <rpm-maven-plugin.version>2.1.4</rpm-maven-plugin.version>
   </properties>
 
   <distributionManagement>
-
     <repository>
-      <id>obiba-releases</id>
-      <url>http://repo.obiba.org/libs-release-local</url>
+      <id>obiba-bintray</id>
+      <url>https://api.bintray.com/obiba/maven/</url>
     </repository>
-
     <snapshotRepository>
-      <id>obiba-snapshots</id>
-      <url>http://repo.obiba.org/libs-snapshot-local</url>
+      <id>obiba-artifactory</id>
+      <url>https://obiba.jfrog.io/obiba/libs-snapshot</url>
     </snapshotRepository>
-
   </distributionManagement>
 
   <scm>
-    <connection>scm:git:git://github.com/obiba/opal-rserver.git</connection>
+    <connection>scm:git:https://github.com/obiba/opal-rserver.git</connection>
     <developerConnection>scm:git:https://github.com/obiba/opal-rserver.git</developerConnection>
     <url>https://github.com/obiba/opal-rserver</url>
-    <tag>HEAD</tag>
   </scm>
 
   <issueManagement>
-    <system>JIRA</system>
-    <url>http://jira.obiba.org</url>
+    <system>GitHub</system>
+    <url>https://github.com/obiba/opal-rserver/issues</url>
   </issueManagement>
 
   <ciManagement>
-    <system>Jenkins</system>
-    <url>https://ci.obiba.org/view/Opal/job/Opal-rserver/</url>
+    <system>Travis</system>
+    <url>https://travis-ci.org/obiba/opal-rserver</url>
   </ciManagement>
 
   <mailingLists>
@@ -250,5 +276,12 @@
       <archive>https://groups.google.com/forum/?fromgroups#!forum/obiba-users</archive>
     </mailingList>
   </mailingLists>
+
+  <licenses>
+    <license>
+      <name>GNU Public License version 3</name>
+      <url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
+    </license>
+  </licenses>
 
 </project>
