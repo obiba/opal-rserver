@@ -10,9 +10,9 @@ set -e
 case "$1" in
     configure)
 
-      Rscript -e "install.packages(c('opal', 'tidyverse', 'knitr', 'rmarkdown'), repos=c('http://cran.rstudio.com', 'http://cran.obiba.org'), dependencies=TRUE, lib='/usr/local/lib/R/site-library')"
+      Rscript -e "install.packages(c('opal', 'opalr', 'tidyverse', 'knitr', 'rmarkdown'), repos=c('https://cloud.r-project.org', 'https://cran.obiba.org'), dependencies=TRUE, lib='/usr/local/lib/R/site-library')"
 
-      Rscript -e "if (R.Version()\$major >= 3) { install.packages('opaladdons', repos=c('http://cran.rstudio.com', 'http://cran.obiba.org'), dependencies=TRUE, lib='/usr/local/lib/R/site-library') }"
+      Rscript -e "if (R.Version()\$major >= 3) { install.packages('opaladdons', repos=c('https://cloud.r-project.org', 'https://cran.obiba.org'), dependencies=TRUE, lib='/usr/local/lib/R/site-library') }"
 
     ;;
 
